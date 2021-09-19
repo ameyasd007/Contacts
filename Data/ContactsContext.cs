@@ -14,7 +14,9 @@ namespace Contacts
             var user = new Contact
             {
                 Id = 1,
-                FullName = "Test User 1",
+                FirstName = "Test",
+                LastName = "1",
+                PhoneNumber = "98878879887",
                 Email = "test@mail.com",
                 Gender = "Male",
                 Status = "Active"

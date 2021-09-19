@@ -23,16 +23,45 @@ namespace Contacts.Controllers
         [HttpGet]
         public IList<Contact> Get()
         {
-            try
-            {
-                return _contactsService.GetAllContacts();
-            }
-            catch (System.Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
+            return _contactsService.GetAllContacts();
+        }
 
-            return default;
+        [HttpGet("{id}")]
+        public Contact Get(int id)
+        {
+            return _contactsService.GetById(id);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Contact contact)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("invalid parameters");
+
+            _contactsService.AddContact(contact);
+
+            return CreatedAtAction(nameof(Get), new { id = contact.Id }, contact);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Contact contact)
+        {
+            if (id != contact.Id)
+                return BadRequest("Id mismatch");
+            if (!ModelState.IsValid)
+                return BadRequest("invalid parameters");
+
+            _contactsService.Update(contact);
+
+            return Ok(contact);
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            _contactsService.Delete(id);
+
+            return NoContent();
         }
     }
 }

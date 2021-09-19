@@ -30,26 +30,26 @@ namespace Contacts
             return Entities.Find(id);
         }
 
-        public void Insert(Contact entity)
+        public void Insert(Contact contact)
         {
-            Entities.Add(entity);
+            Entities.Add(contact);
             _context.SaveChanges();
         }
 
-        public void Update(Contact entity)
+        public void Update(Contact contact)
         {
+            _context.Attach(contact);
+            _context.Entry(contact).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            // Create a new instance of an entity (BaseEntity) and add the id.
             var entity = new Contact
             {
                 Id = id
             };
 
-            // Attach the entity to the context and call the delete method.
             Entities.Attach(entity);
             Delete(entity);
         }
